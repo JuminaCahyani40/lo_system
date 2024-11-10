@@ -1,30 +1,35 @@
 <?php
-include 'koneksi.php';
+include "koneksi.php";
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <title>Lube Oil System</title>
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
-    <!-- Nucleo Icons -->
-    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <!-- Material Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>
+    Lube Oil System
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
 </head>
+
 <body class="g-sidenav-show  bg-gray-100">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
         <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand px-4 py-3 m-0" href=" " target="_blank">
@@ -81,64 +86,75 @@ include 'koneksi.php';
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Admin</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="home.php">Admin</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Daftar Mobil</li>
           </ol>
         </nav>
       </div>
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-2">
-      <!-- write content here -->
-       <div class="container-fluid py-2">
-          <div class="row d-flex">
-            <?php
-            $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_mobil2");
-            while($a=mysqli_fetch_array($ambildata)){
-            ?>
-              <div class="col-lg-4 p-4">
-                <div class="row">
-                  <div class="card bg-transparent shadow-xl">
-                    <div class="overflow-hidden position-relative border-radius-xl">
-                      <img src="../assets/img/illustrations/pattern-tree.svg" alt="" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100">
-                      <span class="mask bg-gradient-dark opacity-10"></span>
-                      <div class="card-body position-relative z-index-1 p-3">
-                        <h4 class="text-white mt-4 mb-2 p-2">Jumlah Mobil</h4>
-                        <h2 class="text-white mt-2 mb-3 p-2"><?php echo $a['id'] ?></h2>
-                      </div>
-                    </div>
-                  </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                <div>
+                    <h6 class="text-white text-capitalize ps-3">Daftar Mobil</h6>
+                </div>
+                <div class="d-grid d-md-flex justify-content-end pe-3" style="margin-top:-35px">
+                    <a href="input_data.php" class="btn btn-info" >Tambah Data Mobil</a>
                 </div>
               </div>
-              <?php
-                }
-              ?>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center justify-content-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark">Id</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Nama Mobil</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    $ambildata = mysqli_query($koneksi, "SELECT * FROM data_mobil2 order by id asc");
+                    while($row=mysqli_fetch_array($ambildata)){
+                    ?>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-xs"><?php echo $row['id_mobil'] ?></h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['nama_mobil'] ?></p>
+                      </td>
+                      <td>
+                      <a href="edit_car.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white"></i> Edit
+                      </a>
+                      <a href="hapus_car.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white"></i> Hapus
+                      </a>
+                      </td>
+                    </tr>
 
-              <?php
-              $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_lube_oil2");
-              while($a=mysqli_fetch_array($ambildata)){
-              ?>
-              <div class="col-lg-4 p-4">
-                <div class="row">
-                  <div class="card bg-transparent shadow-xl">
-                    <div class="overflow-hidden position-relative border-radius-xl">
-                      <img src="../assets/img/illustrations/pattern-tree.svg" alt="" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100">
-                      <span class="mask bg-gradient-dark opacity-10"></span>
-                      <div class="card-body position-relative z-index-1 p-3">
-                        <h4 class="text-white mt-4 mb-2 p-2">Jumlah Lube Oil</h4>
-                        <h2 class="text-white mt-2 mb-3 p-2"><?php echo $a['id'] ?></h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                    <?php
+                    }
+                    ?>
+                
+                    
+                  </tbody>
+                </table>
               </div>
-              <?php
-                }
-              ?>
+            </div>
           </div>
-       </div>
-    </div>
-    <footer class="footer py-4">
+        </div>
+      </div>
+
+      <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -152,7 +168,9 @@ include 'koneksi.php';
           </div>
         </div>
       </footer>
+    </div>
   </main>
+
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
@@ -172,4 +190,5 @@ include 'koneksi.php';
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
 </body>
+
 </html>

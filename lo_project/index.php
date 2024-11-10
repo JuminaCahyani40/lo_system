@@ -1,4 +1,4 @@
-<p?php
+<?php
 include 'koneksi.php';
 
 ?>
@@ -150,7 +150,7 @@ include 'koneksi.php';
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">List Lube Oil Car</h6>
+                        <h6 class="text-white text-capitalize ps-3 text-center">Daftar Lube Oil Car</h6>
                     </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -158,67 +158,33 @@ include 'koneksi.php';
                         <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Car Name</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lube Oil Id</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id Mobil</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Mobil</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            $ambildata = mysqli_query($koneksi, "SELECT * FROM data_mobil2 order by data_mobil2.id asc");
+                            while($row=mysqli_fetch_array($ambildata)){
+                            ?>
                             <tr>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">1</span>
+                                    <span class="text-secondary text-xs font-weight-bold"><?php echo $row['id_mobil'] ?></span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Car 1</span>
+                                    <span class="text-secondary text-xs font-weight-bold"><?php echo $row['nama_mobil'] ?></span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">00123</span>
+                                <a href="data_penggunaan_lo.php?id_mobil=<?php echo $row['id']; ?>" class="d-none d-sm-inline-block btn btn-sm btn-warning shadow-sm">
+                                    <i class="fas fa-eye fa-sm text-white"></i> Lihat Volume Lube Oli
+                                </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">2</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Car 1</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">00124</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">3</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Car 2</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">00111</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">4</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Car 2</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">00112</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">5</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">Car 3</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">00331</span>
-                                </td>
-                            </tr>
+                            <?php
+                            }
+                            ?>
+
                         </tbody>
                         </table>
                     </div>
@@ -229,7 +195,7 @@ include 'koneksi.php';
         </div>
     </section>
 
-    <section id="check_lo">
+    <!-- <section id="check_lo">
       <div class="container mt-sm-5">
         <div class="page-header py-6 py-md-6 my-sm-3 mb-3 border-radius-xl" style="background-image: url('../assets/img/docs-section.png');" loading="lazy">
           <span class="mask bg-gradient-dark"></span>
@@ -255,9 +221,9 @@ include 'koneksi.php';
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <footer class="footer pt-5 mt-5">
+    <footer class="footer pt-3 mt-3">
         <div class="col-12">
             <div class="text-center">
                 <p class="text-dark my-4 text-sm font-weight-normal">
