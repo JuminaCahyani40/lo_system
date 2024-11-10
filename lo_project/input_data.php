@@ -1,5 +1,34 @@
 <?php
-include 'koneksi.php';
+session_start();
+
+include "koneksi.php";
+
+$error_id = "";
+$error_nama = "";
+
+$id = "";
+$nama = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (empty($_POST["carId"])) {
+        $error_id = "Masukkan Id Mobil.";
+    } else {
+        $id = cek_input($_POST["carId"]);
+    }
+
+    if (empty($_POST["carName"])) {
+        $error_nama = "Masukkan Nama Mobil";
+    } else {
+        $nama = cek_input($_POST["carName"]);
+    }
+}
+
+function cek_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 ?>
 
@@ -22,9 +51,11 @@ include 'koneksi.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body class="g-sidenav-show  bg-gray-100">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
         <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand px-4 py-3 m-0" href=" " target="_blank">
@@ -81,8 +112,8 @@ include 'koneksi.php';
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Admin</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="home.php">Admin</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Input Data Mobil</li>
           </ol>
         </nav>
       </div>
@@ -90,55 +121,21 @@ include 'koneksi.php';
     <!-- End Navbar -->
     <div class="container-fluid py-2">
       <!-- write content here -->
-       <div class="container-fluid py-2">
-          <div class="row d-flex">
-            <?php
-            $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_mobil2");
-            while($a=mysqli_fetch_array($ambildata)){
-            ?>
-              <div class="col-lg-4 p-4">
-                <div class="row">
-                  <div class="card bg-transparent shadow-xl">
-                    <div class="overflow-hidden position-relative border-radius-xl">
-                      <img src="../assets/img/illustrations/pattern-tree.svg" alt="" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100">
-                      <span class="mask bg-gradient-dark opacity-10"></span>
-                      <div class="card-body position-relative z-index-1 p-3">
-                        <h4 class="text-white mt-4 mb-2 p-2">Jumlah Mobil</h4>
-                        <h2 class="text-white mt-2 mb-3 p-2"><?php echo $a['id'] ?></h2>
-                      </div>
-                    </div>
-                  </div>
+        <div class="form-input">
+            <form action="proses_data.php" method="post">
+                <div class="form-group">
+                    <label for="carId" class="font-weight-bold text-uppercase">Id</label>
+                    <input type="text" name="carId" class="form-control" id="carId" placeholder="Masukkan ID Mobil">
                 </div>
-              </div>
-              <?php
-                }
-              ?>
-
-              <?php
-              $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_lube_oil2");
-              while($a=mysqli_fetch_array($ambildata)){
-              ?>
-              <div class="col-lg-4 p-4">
-                <div class="row">
-                  <div class="card bg-transparent shadow-xl">
-                    <div class="overflow-hidden position-relative border-radius-xl">
-                      <img src="../assets/img/illustrations/pattern-tree.svg" alt="" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100">
-                      <span class="mask bg-gradient-dark opacity-10"></span>
-                      <div class="card-body position-relative z-index-1 p-3">
-                        <h4 class="text-white mt-4 mb-2 p-2">Jumlah Lube Oil</h4>
-                        <h2 class="text-white mt-2 mb-3 p-2"><?php echo $a['id'] ?></h2>
-                      </div>
-                    </div>
-                  </div>
+                <div class="form-group">
+                    <label for="carName" class="font-weight-bold">Nama Mobil</label>
+                    <input type="text" name="carName" class="form-control" id="carName" placeholder="Masukkan Nama Mobil">
                 </div>
-              </div>
-              <?php
-                }
-              ?>
-          </div>
-       </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-    <footer class="footer py-4">
+    <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -158,6 +155,10 @@ include 'koneksi.php';
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <!-- BOOTSTRAP -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
