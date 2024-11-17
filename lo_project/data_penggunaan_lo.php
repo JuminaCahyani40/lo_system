@@ -44,11 +44,11 @@ if (isset($_GET['id_mobil'])) {
     $id_mobil = mysqli_real_escape_string($koneksi, $_GET['id_mobil']);
 
     // Fetch data_lube_oil records associated with the given id_mobil
-    $queryLubeOil = "SELECT * FROM data_lube_oil2 WHERE id_mobil='$id_mobil'";
+    $queryLubeOil = "SELECT * FROM data_lube_oil WHERE id_mobil='$id_mobil'";
     $resultLubeOil = mysqli_query($koneksi, $queryLubeOil);
 
     while ($lubeOil = mysqli_fetch_assoc($resultLubeOil)) {
-        $id_lube_oil = $lubeOil['id'];
+        $id_lube_oil = $lubeOil['id_lube_oil'];
 
         // Fetch total_liter from data_alatsensor using id_lube_oil
         $queryAlatSensor = "SELECT total_liter FROM data_alatsensor WHERE id='$id_lube_oil'";
@@ -61,6 +61,7 @@ if (isset($_GET['id_mobil'])) {
 
         // Add the data to the array
         $dataLubeOils[] = [
+            'id_lube_oil' => $id_lube_oil,
             'nama_lube_oil' => $lubeOil['nama_lube_oil'],
             'total_liter' => $total_liter
         ];
@@ -96,90 +97,182 @@ mysqli_close($koneksi);
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
-        <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand px-4 py-3 m-0" href=" " target="_blank">
-            <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img" width="26" height="26" alt="main_logo">
-            <span class="ms-1 text-sm text-dark">Your Tim</span>
-        </a>
-        </div>
-        <hr class="horizontal dark mt-0 mb-2">
-        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="home.php">
-                <i class="material-symbols-rounded opacity-5">dashboard</i>
-                <span class="nav-link-text ms-1">Dashboard</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="car_table.php">
-                <i class="material-symbols-rounded opacity-5">table_view</i>
-                <span class="nav-link-text ms-1">Kelola Data Mobil</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="lube_oil_table.php">
-                <i class="material-symbols-rounded opacity-5">receipt_long</i>
-                <span class="nav-link-text ms-1">Kelola Data Lube Oil</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">view_in_ar</i>
-                <span class="nav-link-text ms-1">Logout</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-                <span class="nav-link-text ms-1">RTL</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">notifications</i>
-                <span class="nav-link-text ms-1">Notifications</span>
-            </a>
-            </li>
-            
-        </ul>
-        </div>
-  </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
-      <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="home.php">Admin</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Daftar Lube Oil</li>
-          </ol>
-        </nav>
-      </div>
-    </nav>
-    <!-- End Navbar -->
+  <div class="container position-sticky z-index-sticky top-0">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+                    <div class="container-fluid px-0">
+                        <a class="navbar-brand font-weight-bolder ms-sm-3 d-none d-md-block" href="" rel="tooltip" title="" data-placement="bottom" target="_blank">
+                        Lube Oil System
+                        </a>
+                        <a class="navbar-brand font-weight-bolder ms-sm-3 d-block d-md-none" href="" rel="tooltip" title="" data-placement="bottom" target="_blank">
+                        Lube Oil System
+                        </a>
+                        <button class="navbar-toggler shadow-none ms-2 ms-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon mt-2">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </span>
+                        </button>
+                        <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
+                            <ul class="navbar-nav navbar-nav-hover ms-auto">
+                                <li class="nav-item d-flex align-items-center mx-2">
+                                <a href="#header" role="button" class="nav-link ps-2 d-flex cursor-pointer align-items-center">
+                                    Home
+                                </a>
+                                </li>
+                                <li class="nav-item d-flex align-items-center mx-2">
+                                <a href="#list_lo" role="button" class="nav-link ps-2 d-flex cursor-pointer align-items-center">
+                                    Daftar Lube Oil
+                                </a>
+                                </li>
+                                <li class="nav-item d-flex align-items-center mx-2">
+                                <a href="#check_lo" role="button" class="nav-link ps-2 d-flex cursor-pointer align-items-center">
+                                    Check Volume Oil
+                                </a>
+                                </li>
+                                <li class="nav-item d-flex align-items-center mx-2">
+                                <a href="login.php" role="button" class="nav-link ps-2 d-flex cursor-pointer align-items-center">
+                                    Login
+                                </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- End Navbar -->
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content position-relative max-height-vh-75 border-radius-lg" style="margin-top:7rem; margin-left:5rem">
     <div class="container-fluid py-2">
       <div class="row d-flex">
       <?php if (!empty($dataLubeOils)): ?>
-            <?php foreach ($dataLubeOils as $lubeOil): ?>
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h6 class="mb-0 text-center"><?php echo htmlspecialchars($lubeOil['nama_lube_oil']); ?></h6>
-                            <div class="mt-2">
-                                <h4 class="text-sm text-center"><?php echo htmlspecialchars($lubeOil['total_liter']); ?> L</h4>
-                            </div>
-                        </div>
+          <?php foreach ($dataLubeOils as $index => $lubeOil): ?>
+              <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                  <div class="card-header p-2 ps-3">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <p class="text-sm mb-0 text-capitalize text-center">Pemakaian Terakhir <span class="text-success font-weight-bolder"><?php echo htmlspecialchars($lubeOil['nama_lube_oil']); ?></span> </p>
+                        <h4 class="mb-0"><?php echo htmlspecialchars($lubeOil['total_liter']); ?> L</h4>
+                      </div>
+                      <!-- <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                        <i class="material-symbols-rounded opacity-10">weekend</i>
+                      </div> -->
                     </div>
+                  </div>
+                  <hr class="dark horizontal my-0">
+                  <div class="card-footer p-2 ps-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <p class="mb-0 text-sm">Lihat Grafik Pemakaian</p>
+                      <i class="material-symbols-rounded arrow-icon" data-index="<?php echo $index; ?>" style="cursor:pointer;" onclick="toggleChart(<?php echo $index; ?>);">expand_more</i>
+                    </div>
+                  </div>
+                  <!-- Grafik -->
+                  <div class="grafik-container" id="grafik-<?php echo $index; ?>" data-id-lube-oil="<?php echo $lubeOil['id_lube_oil']; ?>" style="display:none;">
+                    <canvas id="chart-<?php echo $index ?>" width="400" height="200"></canvas>
+                  </div>
                 </div>
+              </div>
+              <script>
+                    const ctx<?php echo $index; ?> = document.getElementById('chart-<?php echo $index; ?>').getContext('2d');
+                    let chart<?php echo $index; ?> = new Chart(ctx<?php echo $index; ?>, {
+                        type: 'line',
+                        data: {
+                            labels: [], // Timestamps
+                            datasets: [{
+                                label: 'Total Liter',
+                                data: [], // Total liter values
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: { title: { display: true, text: 'Tanggal' } },
+                                y: { title: { display: true, text: 'Total Liter' } }
+                            }
+                        }
+                    });
+
+                    function fetchData(index) {
+                      const idLubeOil = document.getElementById(`grafik-${index}`).getAttribute('data-id-lube-oil');
+
+                      $.ajax({
+                          url: 'get_lube_oil_data.php',
+                          method: 'GET',
+                          data: { id_lube_oil: idLubeOil },
+                          dataType: 'json',
+                          success: function(data) {
+                              const labels = data.map(entry => entry.created_at);
+                              const totalLiters = data.map(entry => entry.total_liter);
+
+                              // Periksa apakah chart sudah diinisialisasi
+                              if (window[`chart${index}`]) {
+                                  window[`chart${index}`].data.labels = labels;
+                                  window[`chart${index}`].data.datasets[0].data = totalLiters;
+                                  window[`chart${index}`].update(); // Perbarui grafik
+                              } else {
+                                  // Inisialisasi chart jika belum ada
+                                  const ctx = document.getElementById(`chart-${index}`).getContext('2d');
+                                  window[`chart${index}`] = new Chart(ctx, {
+                                      type: 'line',
+                                      data: {
+                                          labels: labels,  // Timestamps
+                                          datasets: [{
+                                              label: 'Total Liter',
+                                              data: totalLiters,  // Total liter values
+                                              borderColor: 'rgba(75, 192, 192, 1)',
+                                              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                              fill: true,
+                                              tension: 0.4
+                                          }]
+                                      },
+                                      options: {
+                                          responsive: true,
+                                          scales: {
+                                              x: { title: { display: true, text: 'Time' } },
+                                              y: { title: { display: true, text: 'Total Liter' } }
+                                          }
+                                      }
+                                  });
+                              }
+                          }
+                      });
+                  }
+
+
+                    function toggleChart(index) {
+                        const chartContainer = document.getElementById(`grafik-${index}`);
+                        const chartCanvas = document.getElementById(`chart-${index}`);
+
+                        if (chartContainer.style.display === 'none') {
+                            chartContainer.style.display = 'block';
+                            fetchData(index);  // Panggil fungsi untuk mendapatkan data
+                            setInterval(() => fetchData(index), 5000); // Refresh setiap 5 detik
+                        } else {
+                            chartContainer.style.display = 'none';
+                        }
+                    }
+
+                </script>
+
+
             <?php endforeach; ?>
         <?php else: ?>
             <div class="col-12">
                 <p class="text-center">No Lube Oil data found for the selected car.</p>
             </div>
         <?php endif; ?>
+    </div>
+    
 
       <footer class="footer py-4  ">
         <div class="container-fluid">
@@ -212,10 +305,14 @@ mysqli_close($koneksi);
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+  
+
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>

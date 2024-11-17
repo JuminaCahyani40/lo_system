@@ -23,7 +23,7 @@ float total_liter;
 
 const char *ssid     = "AndroidADP_3004"; //nama wifi
 const char *password = "andredheka"; //password
-const char* id = "32002";
+const char* id = "125-SAE30";
 const char* host = "192.168.43.46";
 
 WiFiClient client;
@@ -143,6 +143,10 @@ void loop() {
 
     count = 0;
     attachInterrupt(sensorInt, countPulse, FALLING);
+  }
+
+  ICACHE_RAM_ATTR void countPulse(){
+    count++;
   }
 
 void countPulse(){

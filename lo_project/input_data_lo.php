@@ -93,21 +93,15 @@ function cek_input($data) {
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link text-dark" href="">
+              <a class="nav-link text-dark" href="pemakaian_table.php">
+                <i class="material-symbols-rounded opacity-5">receipt_long</i>
+                <span class="nav-link-text ms-1">Data Pemakaian</span>
+              </a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-dark" href="logout.php">
                 <i class="material-symbols-rounded opacity-5">view_in_ar</i>
                 <span class="nav-link-text ms-1">Logout</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-                <span class="nav-link-text ms-1">RTL</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">notifications</i>
-                <span class="nav-link-text ms-1">Notifications</span>
             </a>
             </li>
             
@@ -139,12 +133,12 @@ function cek_input($data) {
                     <label for="select_car" class="font-weight-bold">Pilih Mobil</label>
                     
                     <select class="form-select bg-white" name="select_car" id="select_car" aria-label="default">
-                      <option selected>Silahkan Pilih Mobil</option>
+                      <option selected disabled>Silahkan Pilih Mobil</option>
                       <?php
-                      $dataMobil = mysqli_query($koneksi,  "SELECT * FROM data_mobil2");
+                      $dataMobil = mysqli_query($koneksi,  "SELECT * FROM data_mobil ORDER BY nama_mobil ASC");
                       while($row=mysqli_fetch_array($dataMobil)) {
                       ?>
-                        <option value="<?php echo $row['id'] ?>"><?php echo $row['nama_mobil']?></option>
+                        <option value="<?php echo $row['id_mobil'] ?>"><?php echo $row['nama_mobil']?></option>
                       <?php
                       }
                       ?>

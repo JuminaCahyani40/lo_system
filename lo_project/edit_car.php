@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $id_mobil = mysqli_real_escape_string($koneksi, $_POST['carId']);
     $nama_mobil = mysqli_real_escape_string($koneksi, $_POST['carName']);
 
-    $query = "UPDATE data_mobil2 SET nama_mobil='$nama_mobil', id_mobil='$id_mobil' WHERE id='$id'";
+    $query = "UPDATE data_mobil SET nama_mobil='$nama_mobil' WHERE id_mobil='$id_mobil'";
     if (mysqli_query($koneksi, $query)) {
         header("Location: car_table.php");
         exit();
@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
 
 if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($koneksi, $_GET['id']);
-    $query = "SELECT * FROM data_mobil2 WHERE id='$id'";
+    $query = "SELECT * FROM data_mobil WHERE id_mobil='$id'";
     $data = mysqli_query($koneksi, $query);
     if (!$data || mysqli_num_rows($data) == 0) {
         echo "Data Mobil tidak ditemukan.";
@@ -88,21 +88,15 @@ mysqli_close($koneksi);
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link text-dark" href="">
+              <a class="nav-link text-dark" href="pemakaian_table.php">
+                <i class="material-symbols-rounded opacity-5">receipt_long</i>
+                <span class="nav-link-text ms-1">Data Pemakaian</span>
+              </a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-dark" href="logout.php">
                 <i class="material-symbols-rounded opacity-5">view_in_ar</i>
                 <span class="nav-link-text ms-1">Logout</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-                <span class="nav-link-text ms-1">RTL</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">notifications</i>
-                <span class="nav-link-text ms-1">Notifications</span>
             </a>
             </li>
             
@@ -127,12 +121,8 @@ mysqli_close($koneksi);
       <div class="form-input">
         <form action="edit_car.php" method="post">
             <div class="form-group">
-                <label for="id" class="font-weight-bold text-uppercase">Id</label>
-                <input type="text" name="id" class="form-control" id="id" readonly required value="<?php echo htmlspecialchars($row['id']); ?>" placeholder="Masukkan Id">
-            </div>
-            <div class="form-group">
-                <label for="carId" class="font-weight-bold">Nama Mobil</label>
-                <input type="text" name="carId" class="form-control" id="carId" value="<?php echo htmlspecialchars($row['id_mobil']); ?>" placeholder="Masukkan Id Mobil" required>
+                <label for="carId" class="font-weight-bold">Id Mobil</label>
+                <input type="text" name="carId" class="form-control" id="carId" readonly value="<?php echo htmlspecialchars($row['id_mobil']); ?>" placeholder="Masukkan Id Mobil" required>
             </div>
             <div class="form-group">
                 <label for="carName" class="font-weight-bold">Nama Mobil</label>
