@@ -59,23 +59,23 @@ include "koneksi.php";
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link text-dark" href="">
+              <a class="nav-link text-dark" href="pemakaian_table.php">
+                <i class="material-symbols-rounded opacity-5">receipt_long</i>
+                <span class="nav-link-text ms-1">Data Pemakaian</span>
+              </a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-dark" href="logout.php">
                 <i class="material-symbols-rounded opacity-5">view_in_ar</i>
                 <span class="nav-link-text ms-1">Logout</span>
             </a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-                <span class="nav-link-text ms-1">RTL</span>
-            </a>
-            </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
             <a class="nav-link text-dark" href="">
                 <i class="material-symbols-rounded opacity-5">notifications</i>
                 <span class="nav-link-text ms-1">Notifications</span>
             </a>
-            </li>
+            </li> -->
             
         </ul>
         </div>
@@ -117,17 +117,17 @@ include "koneksi.php";
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Nama Lube Oil</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Kec Oli</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Total Liter</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark">Aksi</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
                     $ambildata = mysqli_query($koneksi, "
-                      SELECT data_lube_oil2.*, data_mobil2.nama_mobil, data_alatsensor.kec_oli, data_alatsensor.total_liter
-                      FROM data_lube_oil2
-                      JOIN data_mobil2 ON data_lube_oil2.id_mobil = data_mobil2.id
-                      JOIN data_alatsensor ON data_lube_oil2.id = data_alatsensor.id
-                      ORDER BY data_mobil2.nama_mobil ASC
+                      SELECT data_lube_oil.*, data_mobil.nama_mobil, data_alatsensor.kec_oli, data_alatsensor.total_liter
+                      FROM data_lube_oil
+                      JOIN data_mobil ON data_lube_oil.id_mobil = data_mobil.id_mobil
+                      JOIN data_alatsensor ON data_lube_oil.id_lube_oil = data_alatsensor.id
+                      ORDER BY data_mobil.nama_mobil ASC
                   ");
                     while($row=mysqli_fetch_array($ambildata)){
                     ?>
@@ -146,15 +146,16 @@ include "koneksi.php";
                         <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['nama_lube_oil'] ?></p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['kec_oli'] ?> mL/Sec</p>
+                        <p class="text-xs font-weight-bold mb-0 px-2"> <?php echo !empty($row['kec_oli']) ? $row['kec_oli'] . " mL/Sec" : "-"; ?></p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['total_liter'] ?> Liter</p>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo !empty($row['total_liter']) ? $row['total_liter'] . " Liter" : "-"; ?></p>
                       </td>
                       <td>
-                        <a href="edit_lube_oil.php?id=<?php echo $row['id']?>" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white"></i> Edit</a>
+                        <a href="rekap_pemakaian.php?id=<?php echo $row['id_lube_oil']?>" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm"><i class="fas fa-eye fa-sm text-white"></i> Rekap Pemakaian</a>
+                        <a href="edit_lube_oil.php?id=<?php echo $row['id_lube_oil']?>" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white"></i> Edit</a>
                         
-                        <a href="proses_edit_data_lo.php?action=delete&id=<?php echo htmlspecialchars($row['id']); ?>" 
+                        <a href="proses_edit_data_lo.php?action=delete&id=<?php echo htmlspecialchars($row['id_lube_oil']); ?>" 
                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                             <i class="fas fa-trash fa-sm text-white"></i> Hapus
                         </a>

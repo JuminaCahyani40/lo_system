@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($koneksi, $_GET['id']);
 
     // Fetch data from data_lube_oil2 for the given oilId
-    $query = "SELECT * FROM data_lube_oil WHERE id_lube_oil='$id'";
+    $query = "SELECT * FROM data_alatsensor INNER JOIN data_lube_oil ON data_alatsensor.id = data_lube_oil.id_lube_oil where data_lube_oil.id_lube_oil like '%". $id."%'";
     $result = mysqli_query($koneksi, $query);
     $oilData = mysqli_fetch_assoc($result);
 
@@ -95,7 +95,7 @@ if (isset($_GET['id'])) {
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="home.php">Admin</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Input Data Lube Oil</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Rekap Data Pemakaian</li>
           </ol>
         </nav>
       </div>
@@ -104,20 +104,23 @@ if (isset($_GET['id'])) {
     <div class="container-fluid py-2">
       <!-- write content here -->
         <div class="form-input">
-            <form action="proses_edit_data_lo.php" method="post">
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($oilData['id_lube_oil']); ?>">
-
+            <form action="proses_rekap.php" method="post">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($oilData['id']); ?>">
+                <div class="form-group">
+                    <label for="id" class="font-weight-bold text-uppercase">Id</label>
+                    <input type="text" name="id" class="form-control" id="id" readonly="" value="<?php echo htmlspecialchars($oilData['id']); ?>" placeholder="Masukkan ID">
+                </div>
                 <div class="form-group">
                     <label for="oilId" class="font-weight-bold text-uppercase">Id Oil</label>
-                    <input type="text" name="oilId" class="form-control" id="oilId" readonly placeholder="Masukkan ID Oil" value="<?php echo htmlspecialchars($oilData['id_lube_oil']); ?>">
+                    <input type="text" name="oilId" class="form-control" id="oilId" readonly="" placeholder="Masukkan ID Oil" value="<?php echo htmlspecialchars($oilData['id_lube_oil']); ?>">
                 </div>
                 <div class="mb-2">
                     <label for="select_car" class="font-weight-bold">Pilih Mobil</label>
                     
-                    <select class="form-select bg-white" name="select_car" id="select_car" required>
+                    <select class="form-select bg-white" name="select_car" id="select_car" disabled>
                         <option disabled>Silahkan Pilih Mobil</option>
                         <?php
-                        $dataMobil = mysqli_query($koneksi, "SELECT * FROM data_mobil ORDER BY nama_mobil ASC");
+                        $dataMobil = mysqli_query($koneksi, "SELECT * FROM data_mobil ");
                         while ($row = mysqli_fetch_assoc($dataMobil)) {
                             $selected = ($row['id_mobil'] == $oilData['id_mobil']) ? 'selected' : '';
                             echo "<option value='{$row['id_mobil']}' $selected>{$row['nama_mobil']}</option>";
@@ -128,10 +131,44 @@ if (isset($_GET['id'])) {
                 </div>
                 <div class="form-group">
                     <label for="oilName" class="font-weight-bold">Nama Lube Oil</label>
-                    <input type="text" name="oilName" class="form-control" id="oilName" placeholder="Masukkan Nama Lube Oil" value="<?php echo htmlspecialchars($oilData['nama_lube_oil']); ?>">
+                    <input type="text" name="oilName" class="form-control" id="oilName" placeholder="Masukkan Nama Lube Oil"  readonly="" value="<?php echo htmlspecialchars($oilData['nama_lube_oil']); ?>">
                 </div>
+                <div class="form-group">
+                    <label>Bulan </label>
+                    <select name="bulan" class="form-control">
+                    <option selected="selected" disabled>---Pilih Bulan---</option>
+                    <?php
+                    $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+                    $jml_bln=count($bulan);
+                    for($a=0; $a<$jml_bln; $a+=1){
+                        echo"<option value=$bulan[$a]> $bulan[$a] </option>";
+                    }
+                    ?>
+                    </select>
+                </div>
+                <div class=""></div>
+                <?php
+                $id = $_GET['id'];
+                $ambildata=mysqli_query($koneksi, "SELECT * FROM data_pemakaian WHERE data_pemakaian.id_lube_oil LIKE '%". $id."%' UNION SELECT * FROM data_pemakaian WHERE data_pemakaian.id_lube_oil LIKE '%". $id."%' ORDER BY liter_akhir DESC LIMIT 1" );
+                while($row1=mysqli_fetch_array($ambildata)){
+                
+                ?>
+                    <div class="form-group">
+                        <label>Meteran Bulan Lalu :</label>
+                        <input type="text" name="liter_awal" class="form-control" value="<?php echo $row1['liter_akhir'];?>" placeholder="0" required="" />
+                    </div>
+                    <div class="form-group">
+                        <label>Meteran Saat Ini :</label>
+                        <input type="text" name="total_liter" class="form-control"  value="<?php echo $oilData['total_liter']; ?>" placeholder="Liter" required="" />
+                    </div>
+                    <input type="hidden" name="id" value="<?php echo $oilData['id']; ?>">
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
             </form>
+                    <?php
+
+                }
+                ?>
+            
         </div>
     </div>
     <footer class="footer py-4  ">

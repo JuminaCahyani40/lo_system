@@ -54,23 +54,23 @@ include 'koneksi.php';
             </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link text-dark" href="pemakaian_table.php">
+                <i class="material-symbols-rounded opacity-5">receipt_long</i>
+                <span class="nav-link-text ms-1">Data Pemakaian</span>
+              </a>
+            </li>
+            <li class="nav-item">
             <a class="nav-link text-dark" href="">
                 <i class="material-symbols-rounded opacity-5">view_in_ar</i>
                 <span class="nav-link-text ms-1">Logout</span>
             </a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" href="">
-                <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-                <span class="nav-link-text ms-1">RTL</span>
-            </a>
-            </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
             <a class="nav-link text-dark" href="">
                 <i class="material-symbols-rounded opacity-5">notifications</i>
                 <span class="nav-link-text ms-1">Notifications</span>
             </a>
-            </li>
+            </li> -->
             
         </ul>
         </div>
@@ -93,7 +93,7 @@ include 'koneksi.php';
        <div class="container-fluid py-2">
           <div class="row d-flex">
             <?php
-            $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_mobil2");
+            $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_mobil");
             while($a=mysqli_fetch_array($ambildata)){
             ?>
               <div class="col-lg-4 p-4">
@@ -115,7 +115,7 @@ include 'koneksi.php';
               ?>
 
               <?php
-              $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_lube_oil2");
+              $ambildata = mysqli_query($koneksi, "SELECT COUNT(*) as id FROM data_lube_oil");
               while($a=mysqli_fetch_array($ambildata)){
               ?>
               <div class="col-lg-4 p-4">

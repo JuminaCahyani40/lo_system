@@ -3,7 +3,7 @@
 $server = "localhost";
 $username = "root";
 $password = "";
-$database = "lo_project";
+$database = "lubecar_system";
 
 $koneksi = mysqli_connect($server, $username, $password, $database);
 

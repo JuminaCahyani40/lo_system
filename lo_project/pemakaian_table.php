@@ -59,10 +59,10 @@ include "koneksi.php";
             </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark" href="pemakaian_table.php">
-                <i class="material-symbols-rounded opacity-5">receipt_long</i>
-                <span class="nav-link-text ms-1">Data Pemakaian</span>
-              </a>
+                <a class="nav-link text-dark" href="pemakaian_table.php">
+                    <i class="material-symbols-rounded opacity-5">receipt_long</i>
+                    <span class="nav-link-text ms-1">Data Pemakaian</span>
+                </a>
             </li>
             <li class="nav-item">
             <a class="nav-link text-dark" href="logout.php">
@@ -87,7 +87,7 @@ include "koneksi.php";
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="home.php">Admin</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Daftar Mobil</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Data Pemakaian Lube Oil</li>
           </ol>
         </nav>
       </div>
@@ -100,11 +100,11 @@ include "koneksi.php";
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                 <div>
-                    <h6 class="text-white text-capitalize ps-3">Daftar Mobil</h6>
+                    <h6 class="text-white text-capitalize ps-3">Data Pemakaian Lube Oil</h6>
                 </div>
-                <div class="d-grid d-md-flex justify-content-end pe-3" style="margin-top:-35px">
-                    <a href="input_data.php" class="btn btn-info" >Tambah Data Mobil</a>
-                </div>
+                <!-- <div class="d-grid d-md-flex justify-content-end pe-3" style="margin-top:-35px">
+                    <a href="input_data_lo.php" class="btn btn-info" >Tambah Data Lube Oil</a>
+                </div> -->
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -112,32 +112,47 @@ include "koneksi.php";
                 <table class="table align-items-center justify-content-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark">Id</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Nama Mobil</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark">Aksi</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">No</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Id Lube Oil</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Nama Lube Oil</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Pemakaian Bulan</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Liter Awal</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Liter Akhir</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-dark ps-2">Total Pemakaian</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    $ambildata = mysqli_query($koneksi, "SELECT * FROM data_mobil ORDER BY id_mobil ASC");
+                    $ambildata = mysqli_query($koneksi, "SELECT * FROM data_pemakaian ORDER BY id_lube_oil DESC");
+                    $no_urut = 0;
                     while($row=mysqli_fetch_array($ambildata)){
+                        $no_urut++;
                     ?>
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-xs"><?php echo $row['id_mobil'] ?></h6>
+                            <h6 class="mb-0 text-xs"><?php echo $no_urut ?></h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['nama_mobil'] ?></p>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['id_lube_oil'] ?></p>
                       </td>
                       <td>
-                      <a href="edit_car.php?id=<?php echo htmlspecialchars($row['id_mobil']); ?>" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white"></i> Edit
-                      </a>
-                      <a href="hapus_car.php?id=<?php echo htmlspecialchars($row['id_mobil']); ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-trash fa-sm text-white"></i> Hapus
-                      </a>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['nama_oli'] ?></p>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['bulan'] ?></p>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['liter_awal'] ?> Liter</p>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['liter_akhir'] ?> Liter</p>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0 px-2"><?php echo $row['liter'] ?> Liter</p>
                       </td>
                     </tr>
 
